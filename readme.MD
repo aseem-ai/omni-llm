@@ -98,7 +98,7 @@ graph TD
 
 ```bash
 # Clone and enter repo
-git clone https://github.com/yourusername/omni-llm.git
+git clone https://github.com/aseem-ai/omni-llm.git
 cd omni-llm
 
 # Create virtual environment
@@ -163,7 +163,7 @@ omni-llm/
 
 ## 📄 License
 
-MIT License — feel free to use this architecture for learning or your own portfolio.
+MIT License — feel free to use this architecture for learning.
 
 ---
 
