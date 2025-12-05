@@ -121,24 +121,19 @@ Open `frontend/index.html` in your browser. It’s built to run **without** a bu
 ## 🧪 Technical Deep Dive
 
 ### The Math of Retrieval
+Instead of using a library, I implemented vector similarity manually to optimize for low-latency CPU retrieval using **Cosine Similarity**:
 
-Instead of using a library, vector similarity is implemented directly for low-latency CPU retrieval:
+$$\text{Similarity}(A, B) = \frac{A \cdot B}{\|A\| \|B\|}$$
 
-\[
-\text{Similarity}(A, B) = \frac{A \cdot B}{\|A\| \, \|B\|}
-\]
-
-Implementation reference: `src/app.py` (cosine similarity routine).
+* **Implementation:** See `src/app.py` (Line 45) for the numpy-based linear algebra routine.
 
 ### LoRA Implementation
+Low-Rank Adaptation (LoRA) adapts the base weight matrix $W$ by injecting two low-rank matrices, $A$ and $B$:
 
-LoRA adapts the base weight matrix \(W\) by adding a low-rank update:
+$$h = W_0 x + \Delta W x = W_0 x + B A x$$
 
-\[
-h = W_0 x + \Delta W x = W_0 x + B A x
-\]
-
-where \(B \in \mathbb{R}^{d \times r}\) and \(A \in \mathbb{R}^{r \times d}\), with rank \(r \ll d\).
+* **Constraint:** $B \in \mathbb{R}^{d \times r}$ and $A \in \mathbb{R}^{r \times d}$, where the rank $r \ll d$.
+* **Why it matters:** This reduces trainable parameters by ~98%, allowing the "Specialist" modes to switch instantly without reloading the 10GB base model.
 
 ---
 
